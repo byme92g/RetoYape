@@ -1,6 +1,6 @@
 ﻿namespace Shared.Messaging;
 
-public interface IKafkaConsumer
+public interface IKafkaConsumer<T>
 {
     Task ConsumeAsync(CancellationToken ct);
 }

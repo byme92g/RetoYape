@@ -1,0 +1,8 @@
+services:
+    transaction_service:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development
+
+    antifraud_service:
+        environment:
+            - ASPNETCORE_ENVIRONMENT=Development

@@ -1,8 +1,10 @@
-﻿namespace TransactionService.Transaction.Domain.Interfaces;
+﻿using TransactionService.Transaction.Domain.Entities;
+
+namespace TransactionService.Transaction.Domain.Interfaces;
 
 public interface ITransactionRepository
 {
-    Task<Entities.Transaction> GetByExternalIdAsync(Guid transactionExternalId);
-    Task AddAsync(Entities.Transaction transaction);
-    Task UpdateAsync(Entities.Transaction transaction);
+    Task<FinancialTransaction?> GetByExternalIdAsync(Guid transactionExternalId);
+    Task AddAsync(FinancialTransaction transaction);
+    Task UpdateAsync(FinancialTransaction transaction);
 }

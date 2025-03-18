@@ -5,16 +5,18 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app
 WORKDIR /app
 EXPOSE 8080
-EXPOSE 8081
-
 
 # Esta fase se usa para compilar el proyecto de servicio
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["TransactionService/TransactionService.csproj", "TransactionService/"]
+COPY ["Shared/Shared.csproj", "Shared/"]
 RUN dotnet restore "./TransactionService/TransactionService.csproj"
-COPY . .
+
+COPY ./Shared ./Shared
+COPY ./TransactionService ./TransactionService
+
 WORKDIR "/src/TransactionService"
 RUN dotnet build "./TransactionService.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
@@ -23,8 +25,12 @@ FROM build AS publish
 ARG BUILD_CONFIGURATION=Release
 RUN dotnet publish "./TransactionService.csproj" -c $BUILD_CONFIGURATION -o /app/publish /p:UseAppHost=false
 
+
+
 # Esta fase se usa en producción o cuando se ejecuta desde VS en modo normal (valor predeterminado cuando no se usa la configuración de depuración)
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
-ENTRYPOINT ["dotnet", "TransactionService.dll"]
+
+# Migración automática al iniciar
+ENTRYPOINT ["sh", "-c", "dotnet ef database update && dotnet TransactionService.dll"]

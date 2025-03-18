@@ -2,19 +2,20 @@
 using Shared.DTOs;
 using Shared.Messaging;
 using TransactionService.Transaction.Application.Commands;
+using TransactionService.Transaction.Domain.Entities;
 using TransactionService.Transaction.Domain.Interfaces;
 
 namespace TransactionService.Transaction.Application.Handlers;
 
 public class CreateTransactionHandler : IRequestHandler<CreateTransactionCommand, Guid>
 {
-    private readonly ITransactionRepository _transactionRepository;
-    private readonly IKafkaProducer _kafkaProducer;
-    private readonly ILogger _logger;
+    private readonly ITransactionRepository _repository;
+    private readonly IKafkaProducer<FraudCheckDto> _kafkaProducer;
+    private readonly ILogger<CreateTransactionHandler> _logger;
 
-    public CreateTransactionHandler(ITransactionRepository transactionRepository, IKafkaProducer kafkaProducer, ILogger logger)
+    public CreateTransactionHandler(ITransactionRepository transactionRepository, IKafkaProducer<FraudCheckDto> kafkaProducer, ILogger<CreateTransactionHandler> logger)
     {
-        _transactionRepository = transactionRepository;
+        _repository = transactionRepository;
         _kafkaProducer = kafkaProducer;
         _logger = logger;
     }
@@ -24,15 +25,16 @@ public class CreateTransactionHandler : IRequestHandler<CreateTransactionCommand
         try
         {
             _logger.LogInformation($"Handling message: {request}");
-            var transaction = new Domain.Entities.Transaction
+
+            var transaction = new FinancialTransaction
             {
-                SourceAccountId = request.Transaction.SourceAccountId,
-                TargetAccountId = request.Transaction.TargetAccountId,
-                TransferTypeId = request.Transaction.TransferTypeId,
-                Value = request.Transaction.Value
+                SourceAccountId = request.SourceAccountId,
+                TargetAccountId = request.TargetAccountId,
+                TransferTypeId = request.TransferTypeId,
+                Value = request.Value
             };
 
-            await _transactionRepository.AddAsync(transaction);
+            await _repository.AddAsync(transaction);
 
             var fraudCheckDto = new FraudCheckDto
             {
@@ -40,7 +42,7 @@ public class CreateTransactionHandler : IRequestHandler<CreateTransactionCommand
                 Value = transaction.Value
             };
 
-            await _kafkaProducer.SendMessageAsync("anti-fraud-validation", fraudCheckDto);
+            await _kafkaProducer.ProduceAsync("anti-fraud-validation", fraudCheckDto);
             _logger.LogInformation($"Transaction {transaction.TransactionExternalId} created");
 
             return transaction.TransactionExternalId;

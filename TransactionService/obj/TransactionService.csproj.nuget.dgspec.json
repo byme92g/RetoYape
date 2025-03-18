@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\TransactionService\\TransactionService\\TransactionService.csproj": {}
+    "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\TransactionService\\TransactionService.csproj": {}
   },
   "projects": {
-    "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\TransactionService\\Shared\\Shared.csproj": {
+    "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\Shared\\Shared.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\TransactionService\\Shared\\Shared.csproj",
+        "projectUniqueName": "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\Shared\\Shared.csproj",
         "projectName": "Shared",
-        "projectPath": "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\TransactionService\\Shared\\Shared.csproj",
+        "projectPath": "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\Shared\\Shared.csproj",
         "packagesPath": "C:\\Users\\JEREMY\\.nuget\\packages\\",
-        "outputPath": "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\TransactionService\\Shared\\obj\\",
+        "outputPath": "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\Shared\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\JEREMY\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -46,9 +46,17 @@
         "net8.0": {
           "targetAlias": "net8.0",
           "dependencies": {
+            "Confluent.Kafka": {
+              "target": "Package",
+              "version": "[2.8.0, )"
+            },
             "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
               "target": "Package",
               "version": "[1.21.0, )"
+            },
+            "Newtonsoft.Json": {
+              "target": "Package",
+              "version": "[13.0.3, )"
             },
             "Swashbuckle.AspNetCore": {
               "target": "Package",
@@ -78,14 +86,14 @@
         }
       }
     },
-    "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\TransactionService\\TransactionService\\TransactionService.csproj": {
+    "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\TransactionService\\TransactionService.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\TransactionService\\TransactionService\\TransactionService.csproj",
+        "projectUniqueName": "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\TransactionService\\TransactionService.csproj",
         "projectName": "TransactionService",
-        "projectPath": "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\TransactionService\\TransactionService\\TransactionService.csproj",
+        "projectPath": "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\TransactionService\\TransactionService.csproj",
         "packagesPath": "C:\\Users\\JEREMY\\.nuget\\packages\\",
-        "outputPath": "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\TransactionService\\TransactionService\\obj\\",
+        "outputPath": "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\TransactionService\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\JEREMY\\AppData\\Roaming\\NuGet\\NuGet.Config",
@@ -103,8 +111,8 @@
           "net8.0": {
             "targetAlias": "net8.0",
             "projectReferences": {
-              "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\TransactionService\\Shared\\Shared.csproj": {
-                "projectPath": "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\TransactionService\\Shared\\Shared.csproj"
+              "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\Shared\\Shared.csproj": {
+                "projectPath": "C:\\Repositories\\Reto técnico - Yape Bolivia\\MicroServices\\Shared\\Shared.csproj"
               }
             }
           }
@@ -131,6 +139,20 @@
             "MediatR": {
               "target": "Package",
               "version": "[12.4.1, )"
+            },
+            "Microsoft.EntityFrameworkCore": {
+              "target": "Package",
+              "version": "[9.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.Design": {
+              "include": "Runtime, Build, Native, ContentFiles, Analyzers, BuildTransitive",
+              "suppressParent": "All",
+              "target": "Package",
+              "version": "[9.0.2, )"
+            },
+            "Microsoft.EntityFrameworkCore.SqlServer": {
+              "target": "Package",
+              "version": "[9.0.2, )"
             },
             "Microsoft.VisualStudio.Azure.Containers.Tools.Targets": {
               "target": "Package",

@@ -31,7 +31,7 @@ public class UpdateTransactionHandler : IKafkaConsumerHandler<FraudCheckResponse
 
                 await _transactionRepository.UpdateAsync(transaction);
 
-                _logger.LogInformation($"Transaction {transaction.Id} updated to status {transaction.Status}");
+                _logger.LogInformation($"Transaction {transaction.TransactionExternalId} updated to status {transaction.Status}");
             }
         }
         catch (Exception ex)
