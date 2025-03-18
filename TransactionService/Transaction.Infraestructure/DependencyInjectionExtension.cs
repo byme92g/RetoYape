@@ -36,8 +36,8 @@ public static class DependencyInjectionExtension
         services.AddSingleton<IKafkaProducer<TransactionPostDto>, KafkaProducer<TransactionPostDto>>();
         services.AddSingleton<IKafkaProducer<FraudCheckDto>, KafkaProducer<FraudCheckDto>>();
 
-        services.AddScoped<IKafkaConsumerHandler<FraudCheckResponseDto>, UpdateTransactionHandler>();
-        services.AddHostedService<KafkaConsumer<FraudCheckResponseDto>>();
+        //services.AddScoped<IKafkaConsumerHandler<FraudCheckResponseDto>, UpdateTransactionHandler>();
+        //services.AddHostedService<KafkaConsumer<FraudCheckResponseDto>>();
 
         return services;
     }
