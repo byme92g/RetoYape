@@ -7,4 +7,5 @@ public interface ITransactionRepository
     Task<FinancialTransaction?> GetByExternalIdAsync(Guid transactionExternalId);
     Task AddAsync(FinancialTransaction transaction);
     Task UpdateAsync(FinancialTransaction transaction);
+    Task<List<FinancialTransaction>> GetAll();
 }

@@ -16,7 +16,6 @@
   <ItemGroup>
     <Folder Include="AntiFraudService.API\" />
     <Folder Include="AntiFraudService.Infraestructure\" />
-    <Folder Include="Controllers\" />
   </ItemGroup>
 
   <ItemGroup>

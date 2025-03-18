@@ -1,5 +1,4 @@
-﻿using MediatR;
-using Shared.DTOs;
+﻿using Shared.DTOs;
 using Shared.Enums;
 using Shared.Messaging;
 using TransactionService.Transaction.Domain.Interfaces;

@@ -1,5 +1,4 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.IdentityModel.Protocols.OpenIdConnect;
 using Shared.DTOs;
 using Shared.Messaging;
 using TransactionService.Transaction.Application.Handlers;
@@ -37,6 +36,9 @@ public static class DependencyInjectionExtension
         services.AddSingleton<IKafkaProducer<TransactionPostDto>, KafkaProducer<TransactionPostDto>>();
         services.AddSingleton<IKafkaProducer<FraudCheckDto>, KafkaProducer<FraudCheckDto>>();
 
+        services.AddScoped<IKafkaConsumerHandler<FraudCheckResponseDto>, UpdateTransactionHandler>();
+        services.AddHostedService<KafkaConsumer<FraudCheckResponseDto>>();
+
         return services;
     }
 
@@ -56,15 +58,3 @@ public static class DependencyInjectionExtension
         return services;
     }
 }
-
-
-//builder.Services.AddSingleton<IKafkaProducer<FraudCheckDto>, KafkaProducer<FraudCheckDto>>(p =>
-//{
-//    var logger = p.GetRequiredService<ILogger<KafkaProducer<FraudCheckDto>>>();
-//    return new KafkaProducer<FraudCheckDto>(logger);
-//});
-//builder.Services.AddSingleton<KafkaConsumer<FraudCheckResponseDto>>(sp =>
-//    new KafkaConsumer<FraudCheckResponseDto>(sp.GetRequiredService<IServiceScopeFactory>()));
-//builder.Services.AddSingleton<IKafkaConsumerHandler<FraudCheckResponseDto>, UpdateTransactionHandler>();
-//builder.Services.AddHostedService<KafkaConsumer<FraudCheckResponseDto>>();
-//builder.Services.AddLogging();

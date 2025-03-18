@@ -1,4 +1,5 @@
-﻿using TransactionService.Transaction.Domain.Entities;
+﻿using Microsoft.EntityFrameworkCore;
+using TransactionService.Transaction.Domain.Entities;
 using TransactionService.Transaction.Domain.Interfaces;
 
 namespace TransactionService.Transaction.Infraestructure.Repositories
@@ -20,13 +21,18 @@ namespace TransactionService.Transaction.Infraestructure.Repositories
 
         public async Task<FinancialTransaction?> GetByExternalIdAsync(Guid transactionExternalId)
         {
-            return await _context.FinancialTransactions.FindAsync(transactionExternalId);
+            return await _context.FinancialTransactions.FirstOrDefaultAsync(x => x.TransactionExternalId == transactionExternalId);
         }
 
         public async Task UpdateAsync(FinancialTransaction transaction)
         {
             _context.FinancialTransactions.Update(transaction);
             await _context.SaveChangesAsync();
+        }
+
+        public async Task<List<FinancialTransaction>> GetAll()
+        {
+            return await _context.FinancialTransactions.ToListAsync();
         }
     }
 }

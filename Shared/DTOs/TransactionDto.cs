@@ -1,6 +1,4 @@
-﻿using Microsoft.AspNetCore.Mvc;
-
-namespace Shared.DTOs;
+﻿namespace Shared.DTOs;
 
 public record TransactionReadDto
 {
