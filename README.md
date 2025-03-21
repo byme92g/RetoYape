@@ -47,9 +47,9 @@ O prueba con Postman los siguientes endpoints:
 
 ## ⚠️ Notas Importantes
 
-Si por alguna razón Kafka no actualiza los estados de las transacciones, reinicia el proyecto.
-Se agregó un delay en el Consumer para evitar problemas de sincronización y asegurar el correcto funcionamiento de Kafka en el flujo completo.
-Las migraciones de base de datos se ejecutan automáticamente al iniciar el proyecto.
+- Si por alguna razón Kafka no actualiza los estados de las transacciones, reinicia el proyecto.
+- Se agregó un delay en el Consumer para evitar problemas de sincronización y asegurar el correcto funcionamiento de Kafka en el flujo completo.
+- Las migraciones de base de datos se ejecutan automáticamente al iniciar el proyecto.
 
 ## 🏗️ Arquitectura - Microservicios
 
@@ -57,4 +57,6 @@ El proyecto está dividido en 5 microservicios que se comunican entre sí:
 
 | Transaction Service | <------Kafka------> | Anti-Fraud Service |
 
-| SQL Server | | Zookeeper | | Kafka |
+| SQL Server |
+| Zookeeper |
+| Kafka |
