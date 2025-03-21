@@ -24,7 +24,7 @@ public class CreateTransactionHandler : IRequestHandler<CreateTransactionCommand
     {
         try
         {
-            _logger.LogInformation($"Handling message: {request}");
+            _logger.LogInformation($"Solicitud: {request}");
 
             var transaction = new FinancialTransaction
             {
@@ -43,7 +43,7 @@ public class CreateTransactionHandler : IRequestHandler<CreateTransactionCommand
             };
 
             await _kafkaProducer.ProduceAsync("antifraud-validation-request", fraudCheckDto);
-            _logger.LogInformation($"Transaction {transaction.TransactionExternalId} created");
+            _logger.LogInformation($"Transaccion {transaction.TransactionExternalId} fue creada.");
 
             return transaction.TransactionExternalId;
         }

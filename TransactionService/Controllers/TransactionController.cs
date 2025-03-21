@@ -1,7 +1,6 @@
+using FluentValidation;
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using SharedLib.DTOs;
-using SharedLib.Messaging;
 using TransactionService.Transaction.Application.Commands;
 using TransactionService.Transaction.Application.Mappers;
 using TransactionService.Transaction.Domain.Interfaces;
@@ -13,17 +12,18 @@ namespace TransactionService.Controllers;
 public class TransactionController : ControllerBase
 {
     private readonly ITransactionRepository _transactionRepository;
-    private readonly IKafkaProducer<TransactionPostDto> _kafkaProducer;
+    private readonly IValidator<CreateTransactionCommand> _validator;
     private readonly IMediator _mediator;
 
+
     public TransactionController(
-        IKafkaProducer<TransactionPostDto> kafkaProducer,
         IMediator mediator,
-        ITransactionRepository transactionRepository)
+        ITransactionRepository transactionRepository,
+        IValidator<CreateTransactionCommand> validator)
     {
-        _kafkaProducer = kafkaProducer;
         _mediator = mediator;
         _transactionRepository = transactionRepository;
+        _validator = validator;
     }
 
     [HttpPost("Yapear")]
@@ -32,6 +32,14 @@ public class TransactionController : ControllerBase
         try
         {
             if (transaction == null) return BadRequest("Datos invalidos.");
+
+            var validationResult = await _validator.ValidateAsync(transaction);
+
+            if (!validationResult.IsValid)
+            {
+                var errors = validationResult.Errors.Select(e => e.ErrorMessage).ToList();
+                return BadRequest(errors);
+            }
 
             var transactionExternalIdResponse = await _mediator.Send(transaction);
 

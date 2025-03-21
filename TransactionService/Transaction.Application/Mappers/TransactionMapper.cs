@@ -13,7 +13,7 @@ public static class TransactionMapper
             TransactionExternalId = entity.TransactionExternalId,
             SourceAccountId = entity.SourceAccountId,
             TargetAccountId = entity.TargetAccountId,
-            TransferTypeId = entity.TransferTypeId,
+            TransferType = entity.TransferTypeId.ToString(),
             Value = entity.Value,
             CreatedAt = entity.CreatedAt,
             Status = entity.Status.ToString()

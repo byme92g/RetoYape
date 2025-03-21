@@ -20,7 +20,7 @@ public class UpdateTransactionHandler : IKafkaConsumerHandler<FraudCheckResponse
     {
         try
         {
-            _logger.LogInformation($"Handling message: {message}");
+            _logger.LogInformation($"Mensaje: {message}");
 
             var transaction = await _transactionRepository.GetByExternalIdAsync(message.TransactionExternalId);
 

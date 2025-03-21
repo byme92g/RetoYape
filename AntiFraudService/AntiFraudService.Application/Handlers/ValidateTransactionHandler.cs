@@ -9,6 +9,8 @@ public class ValidateTransactionHandler : IKafkaConsumerHandler<FraudCheckDto>
     private readonly IKafkaProducer<FraudCheckResponseDto> _kafkaProducer;
     private readonly ILogger<ValidateTransactionHandler> _logger;
 
+    private static decimal _totalAccumulated = 0;
+
     public ValidateTransactionHandler(IKafkaProducer<FraudCheckResponseDto> kafkaProducer, ILogger<ValidateTransactionHandler> logger)
     {
         _kafkaProducer = kafkaProducer;
@@ -17,9 +19,19 @@ public class ValidateTransactionHandler : IKafkaConsumerHandler<FraudCheckDto>
 
     public async Task HandleMessageAsync(FraudCheckDto message)
     {
-        _logger.LogInformation($"Validating transaction {message.TransactionExternalId} with amount {message.Value}");
+        _logger.LogInformation($"Validando transaccion extId: {message.TransactionExternalId} monto: {message.Value}");
+        FraudStatus result;
 
-        var result = message.Value > 2000 ? FraudStatus.Rejected : FraudStatus.Approved;
+        if (message.Value > 2000) result = FraudStatus.Rejected;
+
+        else if (_totalAccumulated + message.Value > 20000) result = FraudStatus.Rejected;
+
+        else
+        {
+            result = FraudStatus.Approved;
+            _totalAccumulated += message.Value;
+        }
+
 
         var fraudResponse = new FraudCheckResponseDto(message.TransactionExternalId, result
         );

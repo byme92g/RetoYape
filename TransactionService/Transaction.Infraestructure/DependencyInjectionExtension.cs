@@ -1,8 +1,10 @@
 ﻿using Confluent.Kafka;
+using FluentValidation;
 using Microsoft.EntityFrameworkCore;
 using SharedLib.DTOs;
 using SharedLib.Messaging;
 using TransactionService.Transaction.Application.Handlers;
+using TransactionService.Transaction.Application.Validators;
 using TransactionService.Transaction.Domain.Interfaces;
 using TransactionService.Transaction.Infraestructure.Repositories;
 
@@ -75,9 +77,9 @@ public static class DependencyInjectionExtension
 
     private static IServiceCollection AddHandlers(this IServiceCollection services)
     {
-        services.AddMediatR(
-            config => config.RegisterServicesFromAssembly(
-                typeof(CreateTransactionHandler).Assembly));
+        services.AddMediatR(config => config.RegisterServicesFromAssembly(typeof(CreateTransactionHandler).Assembly));
+
+        services.AddValidatorsFromAssemblyContaining<CreateTransactionCommandValidator>();
 
         return services;
     }

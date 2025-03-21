@@ -5,8 +5,6 @@ namespace TransactionService.Transaction.Domain.Entities;
 
 public class FinancialTransaction
 {
-    [Key]
-    public int ID { get; set; }
     public FinancialTransaction()
     {
         TransactionExternalId = Guid.NewGuid();
@@ -15,20 +13,22 @@ public class FinancialTransaction
         Status = TransactionStatus.Pending;
     }
 
+    [Key]
+    public int ID { get; set; }
+
     public Guid TransactionExternalId { get; set; }
 
-    [Required]
     public Guid SourceAccountId { get; set; }
 
-    [Required]
     public Guid TargetAccountId { get; set; }
 
-    [Required]
-    public int TransferTypeId { get; set; }
+    [EnumDataType(typeof(TransferType))]
+    public TransferType TransferTypeId { get; set; }
 
     public decimal Value { get; set; }
 
     public DateTime CreatedAt { get; set; }
 
+    [EnumDataType(typeof(TransactionStatus))]
     public TransactionStatus Status { get; set; }
 }
