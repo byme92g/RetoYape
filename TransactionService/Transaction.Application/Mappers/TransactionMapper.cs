@@ -9,7 +9,6 @@ public static class TransactionMapper
     {
         return new TransactionReadDto
         {
-            ID = entity.ID,
             TransactionExternalId = entity.TransactionExternalId,
             SourceAccountId = entity.SourceAccountId,
             TargetAccountId = entity.TargetAccountId,
