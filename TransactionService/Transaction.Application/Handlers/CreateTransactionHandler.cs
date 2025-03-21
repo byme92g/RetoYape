@@ -1,6 +1,6 @@
 ﻿using MediatR;
-using Shared.DTOs;
-using Shared.Messaging;
+using SharedLib.DTOs;
+using SharedLib.Messaging;
 using TransactionService.Transaction.Application.Commands;
 using TransactionService.Transaction.Domain.Entities;
 using TransactionService.Transaction.Domain.Interfaces;
@@ -42,7 +42,7 @@ public class CreateTransactionHandler : IRequestHandler<CreateTransactionCommand
                 Value = transaction.Value
             };
 
-            await _kafkaProducer.ProduceAsync("anti-fraud-validation", fraudCheckDto);
+            await _kafkaProducer.ProduceAsync("antifraud-validation-request", fraudCheckDto);
             _logger.LogInformation($"Transaction {transaction.TransactionExternalId} created");
 
             return transaction.TransactionExternalId;

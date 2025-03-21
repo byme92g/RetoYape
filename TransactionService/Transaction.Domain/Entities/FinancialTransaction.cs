@@ -1,4 +1,4 @@
-﻿using Shared.Enums;
+﻿using SharedLib.Enums;
 using System.ComponentModel.DataAnnotations;
 
 namespace TransactionService.Transaction.Domain.Entities;

@@ -5,14 +5,19 @@ FROM mcr.microsoft.com/dotnet/aspnet:8.0 AS base
 USER app	
 WORKDIR /app
 EXPOSE 8080
+EXPOSE 8081
 
 # Esta fase se usa para compilar el proyecto de servicio
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 ARG BUILD_CONFIGURATION=Release
 WORKDIR /src
 COPY ["AntiFraudService/AntiFraudService.csproj", "AntiFraudService/"]
+COPY ["SharedLib/SharedLib.csproj", "SharedLib/"]
 RUN dotnet restore "./AntiFraudService/AntiFraudService.csproj"
-COPY . .
+
+COPY ./SharedLib ./SharedLib
+COPY ./AntiFraudService ./AntiFraudService
+
 WORKDIR "/src/AntiFraudService"
 RUN dotnet build "./AntiFraudService.csproj" -c $BUILD_CONFIGURATION -o /app/build
 
@@ -25,4 +30,5 @@ RUN dotnet publish "./AntiFraudService.csproj" -c $BUILD_CONFIGURATION -o /app/p
 FROM base AS final
 WORKDIR /app
 COPY --from=publish /app/publish .
+
 ENTRYPOINT ["dotnet", "AntiFraudService.dll"]

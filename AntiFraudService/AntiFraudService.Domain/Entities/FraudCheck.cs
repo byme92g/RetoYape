@@ -1,4 +1,4 @@
-﻿using Shared.Enums;
+﻿using SharedLib.Enums;
 
 namespace AntiFraudService.AntiFraudService.Domain.Entities;
 

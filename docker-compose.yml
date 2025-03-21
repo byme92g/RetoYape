@@ -4,7 +4,7 @@ networks:
 
 services:
     sqlserver:
-        image: mcr.microsoft.com/mssql/server:2019-latest
+        image: mcr.microsoft.com/mssql/server:2022-latest
         container_name: yape_sqlserver
         ports:
             - "14330:1433"
@@ -43,8 +43,8 @@ services:
 
     antifraud_service:
         build:
-            context: ./AntiFraudService
-            dockerfile: Dockerfile
+            context: .
+            dockerfile: ./AntiFraudService/Dockerfile
         container_name: antifraud_service
         depends_on:
             kafka:

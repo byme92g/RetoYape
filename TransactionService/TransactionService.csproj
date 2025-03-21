@@ -23,14 +23,8 @@
     <PackageReference Include="Swashbuckle.AspNetCore" Version="7.3.1" />
   </ItemGroup>
 
-  <ItemGroup>
-    <ProjectReference Include="..\Shared\Shared.csproj" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Transaction.API\" />
-    <Folder Include="Controllers\" />
-    <Folder Include="Transaction.Infraestructure\Scripts\" />
+    <ItemGroup>
+    <ProjectReference Include="..\..\SharedLib\SharedLib.csproj" />
   </ItemGroup>
 
 </Project>

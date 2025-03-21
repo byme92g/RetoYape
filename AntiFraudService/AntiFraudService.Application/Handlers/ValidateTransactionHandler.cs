@@ -1,6 +1,6 @@
-﻿using Shared.DTOs;
-using Shared.Enums;
-using Shared.Messaging;
+﻿using SharedLib.DTOs;
+using SharedLib.Enums;
+using SharedLib.Messaging;
 
 namespace AntiFraudService.AntiFraudService.Application.Handlers;
 
@@ -24,6 +24,6 @@ public class ValidateTransactionHandler : IKafkaConsumerHandler<FraudCheckDto>
         var fraudResponse = new FraudCheckResponseDto(message.TransactionExternalId, result
         );
 
-        await _kafkaProducer.ProduceAsync("fraud-check-response", fraudResponse);
+        await _kafkaProducer.ProduceAsync("antifraud-validation-response", fraudResponse);
     }
 }

@@ -1,6 +1,0 @@
-﻿namespace Shared.Messaging;
-
-public interface IKafkaProducer<T>
-{
-    Task ProduceAsync(string topic, T message);
-}

@@ -1,4 +1,4 @@
-﻿using Shared.DTOs;
+﻿using SharedLib.DTOs;
 using TransactionService.Transaction.Domain.Entities;
 
 namespace TransactionService.Transaction.Application.Mappers;

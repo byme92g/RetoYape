@@ -1,7 +1,7 @@
 using MediatR;
 using Microsoft.AspNetCore.Mvc;
-using Shared.DTOs;
-using Shared.Messaging;
+using SharedLib.DTOs;
+using SharedLib.Messaging;
 using TransactionService.Transaction.Application.Commands;
 using TransactionService.Transaction.Application.Mappers;
 using TransactionService.Transaction.Domain.Interfaces;

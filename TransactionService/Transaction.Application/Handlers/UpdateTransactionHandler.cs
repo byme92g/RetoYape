@@ -1,6 +1,6 @@
-﻿using Shared.DTOs;
-using Shared.Enums;
-using Shared.Messaging;
+﻿using SharedLib.DTOs;
+using SharedLib.Enums;
+using SharedLib.Messaging;
 using TransactionService.Transaction.Domain.Interfaces;
 
 namespace TransactionService.Transaction.Application.Handlers;

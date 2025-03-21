@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Shared.DTOs;
-using Shared.Messaging;
+﻿using Confluent.Kafka;
+using Microsoft.EntityFrameworkCore;
+using SharedLib.DTOs;
+using SharedLib.Messaging;
 using TransactionService.Transaction.Application.Handlers;
 using TransactionService.Transaction.Domain.Interfaces;
 using TransactionService.Transaction.Infraestructure.Repositories;
@@ -9,10 +10,10 @@ namespace TransactionService.Transaction.Infraestructure;
 
 public static class DependencyInjectionExtension
 {
-    public static IServiceCollection AddInfraestructure(this IServiceCollection services, IConfiguration configuration)
+    public static IServiceCollection AddInfraestructure(this IServiceCollection services, IConfiguration cfg)
     {
-        AddDatabase(services, configuration);
-        AddKafka(services);
+        AddDatabase(services, cfg);
+        AddKafka(services, cfg);
         AddRepositories(services);
         AddHandlers(services);
 
@@ -23,21 +24,44 @@ public static class DependencyInjectionExtension
     {
         services.AddDbContext<TransactionDbContext>(options =>
         {
-            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"))
-                .EnableSensitiveDataLogging()
-                .LogTo(Console.WriteLine, LogLevel.Information);
+            options.UseSqlServer(configuration.GetConnectionString("DefaultConnection"), o => o.EnableRetryOnFailure(
+                maxRetryCount: 5,
+                maxRetryDelay: TimeSpan.FromSeconds(10),
+                errorNumbersToAdd: null
+            ))
+            .EnableSensitiveDataLogging()
+            .LogTo(Console.WriteLine, LogLevel.Information);
         });
 
         return services;
     }
 
-    private static IServiceCollection AddKafka(this IServiceCollection services)
+    private static IServiceCollection AddKafka(this IServiceCollection services, IConfiguration configuration)
     {
+        var producerConfig = new ProducerConfig
+        {
+            BootstrapServers = configuration["Kafka:BootstrapServers"],
+            EnableIdempotence = true,
+            Acks = Acks.All
+        };
+
+        services.AddSingleton(producerConfig);
         services.AddSingleton<IKafkaProducer<TransactionPostDto>, KafkaProducer<TransactionPostDto>>();
         services.AddSingleton<IKafkaProducer<FraudCheckDto>, KafkaProducer<FraudCheckDto>>();
 
-        //services.AddScoped<IKafkaConsumerHandler<FraudCheckResponseDto>, UpdateTransactionHandler>();
-        //services.AddHostedService<KafkaConsumer<FraudCheckResponseDto>>();
+        services.AddSingleton(sp =>
+        {
+            var config = new ConsumerConfig
+            {
+                BootstrapServers = configuration["Kafka:BootstrapServers"],
+                GroupId = configuration["Kafka:GroupId"],
+                AutoOffsetReset = AutoOffsetReset.Earliest
+            };
+            return new ConsumerBuilder<Ignore, string>(config).Build();
+        });
+
+        services.AddHostedService<KafkaConsumer<FraudCheckResponseDto>>();
+        services.AddScoped<IKafkaConsumerHandler<FraudCheckResponseDto>, UpdateTransactionHandler>();
 
         return services;
     }
