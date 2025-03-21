@@ -30,8 +30,6 @@ public class KafkaConsumer<T> : BackgroundService where T : class
         _consumer.Subscribe(_topic);
         _logger.LogInformation($"Kafka Consumer escuchando el topic: {_topic}");
 
-        await Task.Delay(500, stoppingToken);
-
         try
         {
             while (!stoppingToken.IsCancellationRequested)
@@ -51,7 +49,6 @@ public class KafkaConsumer<T> : BackgroundService where T : class
                 _consumer.Commit(consumeResult);
             }
         }
-        catch (OperationCanceledException) { }
         catch (Exception ex)
         {
             _logger.LogError(ex, "Kafka consumption error");
