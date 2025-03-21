@@ -5,6 +5,12 @@ Incluye endpoints para **crear**, **buscar** y **listar** transacciones.
 
 ---
 
+## 📌 Instrucciones
+
+- Ejecute el proyecto con docker-compose para levantar todos los servicios automáticamente usando el archivo docker-compose.yml.
+  - Si los estados de las transacciones no se actualizan, reinicia el proyecto. A veces Kafka no inicia en el orden correcto y los topics no están listos hasta reiniciar.
+- Las migraciones de la base de datos se ejecutan automáticamente al iniciar el proyecto.
+
 ## 🚀 Endpoints Disponibles
 
 Accede al Swagger UI:
@@ -47,9 +53,6 @@ O prueba con Postman los siguientes endpoints:
 
 ## ⚠️ Notas Importantes
 
-- Si por alguna razón Kafka no actualiza los estados de las transacciones, reinicia el proyecto.
-- Se agregó un delay en el Consumer para evitar problemas de sincronización y asegurar el correcto funcionamiento de Kafka en el flujo completo.
-- Las migraciones de base de datos se ejecutan automáticamente al iniciar el proyecto.
 - **Para emergencias**, se deja un **script de respaldo** en la siguiente ruta: TransactionService\Transaction.Infraestructure\Scripts\script.sql
 
 ## 🏗️ Arquitectura - Microservicios
