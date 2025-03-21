@@ -50,6 +50,7 @@ O prueba con Postman los siguientes endpoints:
 - Si por alguna razón Kafka no actualiza los estados de las transacciones, reinicia el proyecto.
 - Se agregó un delay en el Consumer para evitar problemas de sincronización y asegurar el correcto funcionamiento de Kafka en el flujo completo.
 - Las migraciones de base de datos se ejecutan automáticamente al iniciar el proyecto.
+- **Para emergencias**, se deja un **script de respaldo** en la siguiente ruta: TransactionService\Transaction.Infraestructure\Scripts\script.sql
 
 ## 🏗️ Arquitectura - Microservicios
 
